@@ -45,12 +45,12 @@ public class Player : AllCharacter {
         if (Mathf.Abs(DoorVector.x - cameraVector.x) < float.Epsilon)
         {
             inverseTime = 3f;
-            yMove += Mathf.Sign(DoorVector.y - cameraVector.y);
+            yMove += Mathf.Sign(DoorVector.y - cameraVector.y)*2;
         }
         if (Mathf.Abs(DoorVector.y - cameraVector.y) < float.Epsilon)
         {
             inverseTime = 1.5f;
-            xMove += Mathf.Sign(DoorVector.x - cameraVector.x);
+            xMove += Mathf.Sign(DoorVector.x - cameraVector.x)*2;
         }
         Debug.Log(xMove + "" + yMove);
         playerMoveEnd = transform.position + new Vector3(xMove, yMove, 0);
