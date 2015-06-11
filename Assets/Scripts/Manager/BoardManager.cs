@@ -36,8 +36,8 @@ public class BoardManager : MonoBehaviour {
 
 
     //地形分8列,8行
-    public static int columns = 11;
-    public static int rows = 9;
+    public static int columns = 13;
+    public static int rows = 7;
 
     //地形素材
     public GameObject wall;
@@ -45,9 +45,12 @@ public class BoardManager : MonoBehaviour {
     public GameObject door;
     
     //敌人
-    public GameObject[] enemyTiles;
+    public GameObject[] enemies;
 
-    //句柄
+    //Boss
+    public GameObject Boss;
+
+    //Transform句柄
     private Transform boardHolder;
     private Transform roomHolder;
 
@@ -87,7 +90,7 @@ public class BoardManager : MonoBehaviour {
         int seed = 15;
         //生成随机数
         System.Random ro = new System.Random(seed);
-        int resultRandom = ro.Next(seed);
+   //   int resultRandom = ro.Next(seed);
         //初始化房间列表
         InitialiseList();
         //初始化减1房间
@@ -105,9 +108,9 @@ public class BoardManager : MonoBehaviour {
     void CreateRandomRoom(Transform parentRoom, Room room, int seed,System.Random ro,int doorOpen)
     {
 
-        Debug.Log("RoomNum:" + roomNum);
-        Debug.Log("I have doorOpen:" + doorOpen);
-        Debug.Log("room Vector2:(" + room.getPointX() + " " + room.getPointY() + ")");
+        //Debug.Log("RoomNum:" + roomNum);
+        //Debug.Log("I have doorOpen:" + doorOpen);
+        //Debug.Log("room Vector2:(" + room.getPointX() + " " + room.getPointY() + ")");
         //将坐标跟房间建立联系
         roomPosition.Add(new Vector2(room.getPointX(),room.getPointY()),room);
  
@@ -115,7 +118,9 @@ public class BoardManager : MonoBehaviour {
         int doorWhich = ro.Next(seed) % 4;
         //布置房间
         InstanceRoom(parentRoom, room);
-   //     doorOpen = Mathf.Clamp(doorOpen, 0, roomNum);
+
+        //布置敌人
+        InstanceEnemy(parentRoom, room, roomNum);
 
         //如果有打开的门
         while ( doorOpen > 0 && roomNum > 0 )
@@ -123,7 +128,7 @@ public class BoardManager : MonoBehaviour {
             //进行选择门
             doorWhich = (doorWhich + 1) % 4;
 
-            Debug.Log("choose door:"+doorWhich);
+            //Debug.Log("choose door:"+doorWhich);
 
             //指向下一个房间
             roomNext = room.getRandomRoomNext(room, doorWhich);
@@ -138,7 +143,7 @@ public class BoardManager : MonoBehaviour {
                 {
                     //一个房间的上方向门是下一个房间的下方向门,链接两个房间的指针
                     int preDoor = (doorWhich + 2) % 4;
-                    Debug.LogWarning("preDoor:"+preDoor);
+                    //Debug.LogWarning("preDoor:"+preDoor);
                     roomPosition[roomNext.getVector()].nextRoom[preDoor] = room;
                     roomNext = roomPosition[roomNext.getVector()];
                     break;
@@ -156,10 +161,10 @@ public class BoardManager : MonoBehaviour {
                 CreateRandomRoom(roomHolder, roomNext, seed, ro, nextDoorOpen);
                 
             }
-            else
-            {
-                Debug.Log("Try again");
-            }
+            //else
+            //{
+            //    Debug.Log("Try again");
+            //}
 
         }//while ( doorOpen > 0 && roomNum > 0 )
  
@@ -177,8 +182,9 @@ public class BoardManager : MonoBehaviour {
 
                 //给房间边缘边缘铺墙
                 if (x == room.getPointX() || x == room.getPointX() + columns - 1 || y == room.getPointY() || y == room.getPointY() + rows - 1)
-                    toInstantiate = wall;
-
+                {
+                        toInstantiate = wall;
+                }
                 //实例化toInstantiate在x,y坐标处并转为GameObject类型
                 GameObject instance =
                         Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
@@ -191,14 +197,27 @@ public class BoardManager : MonoBehaviour {
         }//for (int x = room.getPointX(); x < room.getPointX() + columns; x++)
     }
 
+    void InstanceEnemy(Transform parenteRoom, Room room,int roomNum)
+    {
+        //Debug.Log("I am Create Enemy");
+    }
+
+
+
     //实例化门
     void InstanceDoor(Transform parentRoom, Room room)
     {
 
    //   Debug.Log("roomNextDoor Vector2:"+room.getDoorVector());
         GameObject toInstantiate = door;
+   
         GameObject instance = Instantiate(toInstantiate, new Vector3(room.getDoorVector().x, room.getDoorVector().y, 0f), Quaternion.identity) as GameObject;
         instance.transform.SetParent(parentRoom);
+        
+        //如果门在左侧或者右侧则旋转门的方向
+        if(room.getDoorVector().x==room.getPointX()||room.getDoorVector().x==room.getPointX() + BoardManager.columns - 1){
+            instance.transform.Rotate(new Vector3(0,0,90f));
+        }
     }
 
     //场景建立
@@ -288,7 +307,7 @@ class Room
         //生成上方向房间 
         if (!door[(int)Direction.up] && doorWhich == (int)Direction.up)
         {
-            Debug.Log("生成上房间");
+            //Debug.Log("生成上房间");
             door[(int)Direction.up] = true;
             //currentRoom.upRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows-1));
             //currentRoom.upRoom.setDoorVector(new Vector2(currentRoom.getPointX()+ BoardManager.columns/2, currentRoom.getPointY() + BoardManager.rows-1));
@@ -302,7 +321,7 @@ class Room
         //生成右方向房间
         if (!door[(int)Direction.right] && doorWhich == (int)Direction.right)
         {
-            Debug.Log("生成右房间");
+            //Debug.Log("生成右房间");
             door[(int)Direction.right] = true;
             //currentRoom.rightRoom = new Room(new Vector2(currentRoom.getPointX() + BoardManager.columns-1, currentRoom.getPointY()));
             //currentRoom.rightRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns-1, currentRoom.getPointY() + BoardManager.rows /2));
@@ -316,7 +335,7 @@ class Room
         //生成下方向房间
         if (!door[(int)Direction.down] && doorWhich == (int)Direction.down)
         {
-            Debug.Log("生成下房间");
+            //Debug.Log("生成下房间");
             door[(int)Direction.down] = true;
             //currentRoom.downRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() - BoardManager.rows+1));
             //currentRoom.downRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns/2, currentRoom.getPointY()));
@@ -330,7 +349,7 @@ class Room
         //生成左方向房间
         if (!door[(int)Direction.left] && doorWhich == (int)Direction.left)
         {
-            Debug.Log("生成左房间");
+            //Debug.Log("生成左房间");
             door[(int)Direction.left] = true;
             //currentRoom.leftRoom = new Room(new Vector2(currentRoom.getPointX() - BoardManager.columns +1, currentRoom.getPointY()));
             //currentRoom.leftRoom.setDoorVector(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows /2));
