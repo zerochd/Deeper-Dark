@@ -3,12 +3,13 @@ using System.Collections;
 
 public class CameraControl : MonoBehaviour {
 
-    //获取相机transform
-//    private Transform cameraTransform;
+    //获取地形管理器
+    BoardManager boardManager;
 
+    private Room roomStart;
+    //移动时间
     public float moveTime = 0.1f;
     //滑动速度
-//    private float smooth = 8f;
     private float inverseMoveTime;
     //单例这个脚本
     public static CameraControl cameraInstance = null;
@@ -29,6 +30,9 @@ public class CameraControl : MonoBehaviour {
  //       transform = GetComponent<Transform>();
         //Debug.Log(transform.position);
         inverseMoveTime = 1f / moveTime;
+        boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
+        roomStart = boardManager.getRoomFirst();
+       
 	}
 	
 	// Update is called once per frame
@@ -45,8 +49,6 @@ public class CameraControl : MonoBehaviour {
         float yMove = (DoorVector.y - transform.position.y) * 2;
         float xMove = (DoorVector.x - transform.position.x) * 2;
         moveEnd = transform.position + new Vector3(xMove, yMove, 0);
-        
-
         StartCoroutine(CameraSmoothMove(moveEnd));
     }
 
@@ -64,5 +66,6 @@ public class CameraControl : MonoBehaviour {
             sqrRemainingDistance = (transform.position - moveEnd).sqrMagnitude;
             yield return null;
         }
+        //切换门
     }
 }

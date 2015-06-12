@@ -39,28 +39,33 @@ public class Player : AllCharacter {
 
         //float yMove = (DoorVector.y - transform.position.y) ;
         //float xMove = (DoorVector.x - transform.position.x);
+        //初始化y跟x的移动距离
         float yMove = 0f ;
         float xMove = 0f;
-
+        
+        //如果是上下移动
         if (Mathf.Abs(DoorVector.x - cameraVector.x) < float.Epsilon)
         {
-            inverseTime = 3f;
-            yMove += Mathf.Sign(DoorVector.y - cameraVector.y)*2;
+            inverseTime = 2.75f;
+            yMove += Mathf.Sign(DoorVector.y - cameraVector.y)*1.5f;
         }
+        //如果是左右移动
         if (Mathf.Abs(DoorVector.y - cameraVector.y) < float.Epsilon)
         {
-            inverseTime = 1.5f;
-            xMove += Mathf.Sign(DoorVector.x - cameraVector.x)*2;
+            inverseTime = 1.25f;
+            xMove += Mathf.Sign(DoorVector.x - cameraVector.x)*1.5f;
         }
-        Debug.Log(xMove + "" + yMove);
+        Debug.Log("x: "+xMove + " y: " + yMove);
+        //设定移动终点
         playerMoveEnd = transform.position + new Vector3(xMove, yMove, 0);
+        //不能让玩家控制
         canControl = false;
-        StartCoroutine(PlayerSmoothMove(playerMoveEnd, inverseTime));
-       
+        //开启移动协程
+        StartCoroutine(PlayerSmoothMove(playerMoveEnd));
     }
 
     //玩家平滑移动
-    IEnumerator PlayerSmoothMove(Vector3 moveEnd,float inverseTime)
+    IEnumerator PlayerSmoothMove(Vector3 moveEnd)
     {
         Debug.Log(inverseTime);
         //求出从起始点到终点的距离
@@ -77,7 +82,8 @@ public class Player : AllCharacter {
         }      
             Debug.Log("已经移动完成");
         //将玩家的触发器改为碰撞器
-           GetComponent<BoxCollider2D>().isTrigger = false;
+           //GetComponent<BoxCollider2D>().isTrigger = false;
+            GetComponent<CircleCollider2D>().isTrigger = false;
            canControl = true;
     }
 }
