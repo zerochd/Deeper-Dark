@@ -28,8 +28,9 @@ public class BoardManager : MonoBehaviour {
             maximum = max;
         }
     }
-                                             
-    public int roomMaxNum = 10;                        //房间总数
+                                     
+    public int roomMaxNum = 10;                             //房间总数
+    public int seed = 25;                                   //生成随机房间的随机数种子
 
     //地形分13列,7行
     public static int columns = 13;
@@ -89,8 +90,6 @@ public class BoardManager : MonoBehaviour {
         enemyHolder = new GameObject("Enemy").transform;
         //创建第一个房间的引用
         roomStart = new Room();
-        //随机数种子
-        int seed = 15;
         //生成随机数
         System.Random ro = new System.Random(seed);
         //int resultRandom = ro.Next(seed);
@@ -110,7 +109,7 @@ public class BoardManager : MonoBehaviour {
     */
     void CreateRandomRoom(Transform parentRoom, Room room, int seed,System.Random ro,int doorOpen)
     {
-
+        
         //Debug.Log("RoomNum:" + roomNum);
         //Debug.Log("I have doorOpen:" + doorOpen);
         //Debug.Log("room Vector2:(" + room.getPointX() + " " + room.getPointY() + ")");
@@ -124,8 +123,8 @@ public class BoardManager : MonoBehaviour {
         InstanceRoom(parentRoom, room);
 
   //      Debug.Log("Enemy: "+room.enemy);
-        //布置敌人
-        InstanceEnemy(parentRoom,room,seed);
+        //布置敌人，通过将种子跟roomNum相加来修改seed的值(roomNum每次循环-1)
+        InstanceEnemy(parentRoom,room,seed+roomNum);
 
         //如果有打开的门
         while ( doorOpen > 0 && roomNum > 0 )
