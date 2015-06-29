@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scene/Level.unity.meta
 guid: 2d8432f55e3c2494f9a961e535dcfeed
 timeCreated: 1435589042
+=======
+guid: 6898583afdc5a9441ac882ec20e99cbb
+timeCreated: 1435590631
+>>>>>>> master:Assets/Scene/main.unity.meta
 licenseType: Pro
 DefaultImporter:
   userData: 
