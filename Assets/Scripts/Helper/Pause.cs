@@ -10,7 +10,7 @@ public class Pause : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //不销毁这个gameObject
-        Application.DontDestroyOnLoad(this.gameObject);
+        Object.DontDestroyOnLoad(this.gameObject);
 	}
 	
 	// Update is called once per frame
