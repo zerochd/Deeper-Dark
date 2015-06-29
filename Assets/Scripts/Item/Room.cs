@@ -84,11 +84,11 @@ public class Room{
         {
             //Debug.Log("生成上房间");
             door[(int)Direction.up] = true;
-            //currentRoom.upRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows-1));
-            //currentRoom.upRoom.setDoorVector(new Vector2(currentRoom.getPointX()+ BoardManager.columns/2, currentRoom.getPointY() + BoardManager.rows-1));
+            //currentRoom.upRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.ROWS-1));
+            //currentRoom.upRoom.setDoorVector(new Vector2(currentRoom.getPointX()+ BoardManager.COLUMNS/2, currentRoom.getPointY() + BoardManager.ROWS-1));
             //currentRoom.upRoom.door[(int)Direction.down] = true;
-            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows - 1));
-            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns / 2, currentRoom.getPointY() + BoardManager.rows - 1));
+            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.ROWS - 1));
+            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS / 2, currentRoom.getPointY() + BoardManager.ROWS - 1));
             currentRoom.nextRoom[doorWhich].door[(int)Direction.down] = true;
             return currentRoom.nextRoom[doorWhich];         
         }
@@ -98,11 +98,11 @@ public class Room{
         {
             //Debug.Log("生成右房间");
             door[(int)Direction.right] = true;
-            //currentRoom.rightRoom = new Room(new Vector2(currentRoom.getPointX() + BoardManager.columns-1, currentRoom.getPointY()));
-            //currentRoom.rightRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns-1, currentRoom.getPointY() + BoardManager.rows /2));
+            //currentRoom.rightRoom = new Room(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS-1, currentRoom.getPointY()));
+            //currentRoom.rightRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS-1, currentRoom.getPointY() + BoardManager.ROWS /2));
             //currentRoom.rightRoom.door[(int)Direction.left] = true;
-            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX() + BoardManager.columns - 1, currentRoom.getPointY()));
-            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns - 1, currentRoom.getPointY() + BoardManager.rows / 2));
+            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS - 1, currentRoom.getPointY()));
+            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS - 1, currentRoom.getPointY() + BoardManager.ROWS / 2));
             currentRoom.nextRoom[doorWhich].door[(int)Direction.left] = true;
             return currentRoom.nextRoom[doorWhich];
         }
@@ -112,11 +112,11 @@ public class Room{
         {
             //Debug.Log("生成下房间");
             door[(int)Direction.down] = true;
-            //currentRoom.downRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() - BoardManager.rows+1));
-            //currentRoom.downRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns/2, currentRoom.getPointY()));
+            //currentRoom.downRoom = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() - BoardManager.ROWS+1));
+            //currentRoom.downRoom.setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS/2, currentRoom.getPointY()));
             //currentRoom.downRoom.door[(int)Direction.up] = true;
-            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() - BoardManager.rows + 1));
-            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.columns / 2, currentRoom.getPointY()));
+            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() - BoardManager.ROWS + 1));
+            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX() + BoardManager.COLUMNS / 2, currentRoom.getPointY()));
             currentRoom.nextRoom[doorWhich].door[(int)Direction.up] = true;
             return currentRoom.nextRoom[doorWhich];
         }
@@ -126,12 +126,12 @@ public class Room{
         {
             //Debug.Log("生成左房间");
             door[(int)Direction.left] = true;
-            //currentRoom.leftRoom = new Room(new Vector2(currentRoom.getPointX() - BoardManager.columns +1, currentRoom.getPointY()));
-            //currentRoom.leftRoom.setDoorVector(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows /2));
+            //currentRoom.leftRoom = new Room(new Vector2(currentRoom.getPointX() - BoardManager.COLUMNS +1, currentRoom.getPointY()));
+            //currentRoom.leftRoom.setDoorVector(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.ROWS /2));
             //currentRoom.leftRoom.door[(int)Direction.right] = true;
 
-            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX() - BoardManager.columns + 1, currentRoom.getPointY()));
-            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.rows / 2));
+            currentRoom.nextRoom[doorWhich] = new Room(new Vector2(currentRoom.getPointX() - BoardManager.COLUMNS + 1, currentRoom.getPointY()));
+            currentRoom.nextRoom[doorWhich].setDoorVector(new Vector2(currentRoom.getPointX(), currentRoom.getPointY() + BoardManager.ROWS / 2));
             currentRoom.nextRoom[doorWhich].door[(int)Direction.right] = true;
             return currentRoom.nextRoom[doorWhich];
         }

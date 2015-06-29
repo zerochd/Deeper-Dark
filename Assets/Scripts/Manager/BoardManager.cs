@@ -33,8 +33,8 @@ public class BoardManager : MonoBehaviour {
     public int seed = 25;                                   //生成随机房间的随机数种子
 
     //地形分13列,7行
-    public static int columns = 13;
-    public static int rows = 7;
+    public static int COLUMNS = 13;
+    public static int ROWS = 7;
 
     //地形素材
     public GameObject wall;
@@ -119,6 +119,7 @@ public class BoardManager : MonoBehaviour {
         //用随机数对4去模，取得初始选择的门
         int doorWhich = ro.Next(seed) % 4;
 
+
         //布置房间
         InstanceRoom(parentRoom, room);
 
@@ -129,6 +130,7 @@ public class BoardManager : MonoBehaviour {
         //如果有打开的门
         while ( doorOpen > 0 && roomNum > 0 )
         {
+
             //进行选择门
             doorWhich = (doorWhich + 1) % 4;
 
@@ -160,8 +162,9 @@ public class BoardManager : MonoBehaviour {
                 //房间数跟开门数-1
                 roomNum--;
                 doorOpen--;
-                //随机下一个开门数并限制在房间数内
-                int nextDoorOpen = Mathf.Clamp(ro.Next(seed + doorOpen)%3,0,roomNum);
+                //随机下一个开门数并限制在房间数内,设置最小值为1,避免出现下一个不开门的情况，
+                //设置最大值为roomNum，避免出现多开门的情况
+                int nextDoorOpen = Mathf.Clamp(ro.Next(seed + doorOpen)%3,1,roomNum);
                 //创建Room链接父子节点
                 roomHolder = new GameObject("Room").transform;
                 roomHolder.SetParent(parentRoom);
@@ -182,15 +185,15 @@ public class BoardManager : MonoBehaviour {
     //实例化房间细节
     void InstanceRoom(Transform parentRoom, Room room)
     {
-        for (int x = room.getPointX(); x < room.getPointX() + columns; x++)
+        for (int x = room.getPointX(); x < room.getPointX() + COLUMNS; x++)
         {
-            for (int y = room.getPointY(); y < room.getPointY() + rows; y++)
+            for (int y = room.getPointY(); y < room.getPointY() + ROWS; y++)
             {
                 //先铺地板
                 GameObject toInstantiate = floor;
 
                 //给房间边缘边缘铺墙
-                if (x == room.getPointX() || x == room.getPointX() + columns - 1 || y == room.getPointY() || y == room.getPointY() + rows - 1)
+                if (x == room.getPointX() || x == room.getPointX() + COLUMNS - 1 || y == room.getPointY() || y == room.getPointY() + ROWS - 1)
                 {
                         toInstantiate = wall;
                 }
@@ -202,8 +205,8 @@ public class BoardManager : MonoBehaviour {
                 //设置父节点为Room
                 instance.transform.SetParent(parentRoom);
 
-            }//for (int y = room.getPointY(); y < room.getPointY() + rows; y++)
-        }//for (int x = room.getPointX(); x < room.getPointX() + columns; x++)
+            }//for (int y = room.getPointY(); y < room.getPointY() + ROWS; y++)
+        }//for (int x = room.getPointX(); x < room.getPointX() + COLUMNS; x++)
     }
 
     void InstanceEnemy(Transform parenteRoom,Room room,int seed)
@@ -212,8 +215,8 @@ public class BoardManager : MonoBehaviour {
        
         while (room.enemy > 0)
         {
-            int xRandom = random.Next(columns-4) + 2;
-            int yRandom = random.Next(rows-4) + 2;
+            int xRandom = random.Next(COLUMNS-4) + 2;
+            int yRandom = random.Next(ROWS-4) + 2;
             //Debug.Log("x :" + xRandom + " y: " + yRandom);
             Vector3 enemySpawnPosition = new Vector3(room.getPointX() + xRandom, room.getPointY() + yRandom, 0);
             GameObject enemyInstance = Instantiate(getRandomEnemy(), enemySpawnPosition, Quaternion.identity) as GameObject;
@@ -225,7 +228,7 @@ public class BoardManager : MonoBehaviour {
         }
         while (room.boss > 0)
         {
-            Vector3 bossSpawnPosition = new Vector3(room.getPointX() + columns/2, room.getPointY() + rows/2, 0);
+            Vector3 bossSpawnPosition = new Vector3(room.getPointX() + COLUMNS/2, room.getPointY() + ROWS/2, 0);
             GameObject bossInstance = Instantiate(Boss, bossSpawnPosition, Quaternion.identity) as GameObject;
             bossInstance.transform.SetParent(enemyHolder);
             room.boss--;
@@ -253,7 +256,7 @@ public class BoardManager : MonoBehaviour {
         instance.transform.SetParent(parentRoom);
         
         //如果门在左侧或者右侧则旋转门的方向
-        if(room.getDoorVector().x==room.getPointX()||room.getDoorVector().x==room.getPointX() + BoardManager.columns - 1){
+        if(room.getDoorVector().x==room.getPointX()||room.getDoorVector().x==room.getPointX() + BoardManager.COLUMNS - 1){
             instance.transform.Rotate(new Vector3(0,0,90f));
         }
     }
