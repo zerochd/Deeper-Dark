@@ -22,21 +22,21 @@ public class PrintMessage : MonoBehaviour {
         subScreenGUIText = GetComponent<Text>();
         //Debug.Log(subScreenGUIText.text);
 
-        subScreenGUIText.text = "\n\n\n\n\n\n";
+//        subScreenGUIText.text = "\n\n\n\n\n\n";
 
         //初始化Message
-        SetMessage("STAND BY ALERT.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
-        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("STAND BY ALERT.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
+//        SetMessage("ENEMY FLEETS ARE APPROACHING.");
 
 	}
 	
@@ -83,7 +83,8 @@ public class PrintMessage : MonoBehaviour {
         //获得屏幕上的当前文字
         string subScreenText = subScreenGUIText.text;
 
-        subScreenText += "\n";
+		//临时删除
+//        subScreenText += "\n";
 
         //一次表示的文字=固定值加行数
         int adddtionNum = ADDITION_NUM + messages.Count;
@@ -112,10 +113,10 @@ public class PrintMessage : MonoBehaviour {
             string[] lines = subScreenText.Split("\n"[0]);
             for (int m = 0; m < lines.Length; m++)
             {
-                Debug.Log(i+"i:"+lines[m]);
+//                Debug.Log(i+"i:"+lines[m]);
             }
 
-            Debug.Log("line.Legth:" + lines.Length);
+//            Debug.Log("line.Legth:" + lines.Length);
 
             //当超过MAX_ROW_COUNT，文字向上滚动
             if (lines.Length > MAX_ROW_COUNT)

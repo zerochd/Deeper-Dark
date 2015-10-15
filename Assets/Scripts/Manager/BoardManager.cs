@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;	//Allows us to use Lists.
@@ -32,6 +32,8 @@ public class BoardManager : MonoBehaviour {
     public int roomMaxNum = 10;                             //房间总数
     public int seed = 25;                                   //生成随机房间的随机数种子
 
+    public static bool isCreate = false;                    //设置房间没有创建                 
+
     //地形分13列,7行
     public static int COLUMNS = 13;
     public static int ROWS = 7;
@@ -45,16 +47,33 @@ public class BoardManager : MonoBehaviour {
     public GameObject[] enemies;
     //Boss类型
     public GameObject Boss;
+	//道具类型
+	public GameObject[] chests;
+	//陷阱类型
+	public GameObject[] traps;
 
-    private Transform boardHolder;                      //Transform句柄
-    private Transform roomHolder;                       //Transform句柄
-    private Transform enemyHolder;                      //Transform句柄
+    private Transform boardHolder;                      //board的Transform句柄
+    private Transform roomHolder;                       //room的Transform句柄
+    private Transform enemyHolder;                      //enemy的Transform句柄
+	private Transform ChestHolder;						//item的Transform句柄
+	private Transform trapHolder;						//trap的Transform句柄
+
                                           
     private Room roomStart;                             //房间的根节点
     private Room roomNext;                              //下一个房间节点
     private Dictionary<Vector2,Room> roomPosition;
-    private int roomID=0;                                 //房间编号
+    private int roomID=0;                                //房间编号
     private int roomNum;                                 //设置房间数
+		
+	public  static Vector3 xy_min = Vector3.zero;								 //最小的xy3维								
+	public  static Vector3 xy_max = new Vector3(COLUMNS - 1,ROWS - 1,-10);		 //最大的xy3维
+
+	private List<Vector3> gridPositions = new List<Vector3>();	//保存房间格子数(放置物)
+
+
+	delegate void InstanceSomethingDelegate(Transform parentRoom, Room room);
+	event InstanceSomethingDelegate instanceSomethingEvent;
+
     // Use this for initialization
 	void Start () {
         SetupScene(1);
@@ -73,12 +92,42 @@ public class BoardManager : MonoBehaviour {
     }
 
     //初始化房间列表
-
-    void InitialiseList()
+    void InitialiseRoomPositionList()
     {
         roomPosition = new Dictionary<Vector2, Room>();
         roomPosition.Clear();
     }
+
+	//初始化可放置格子，排除掉靠近门的四个格子
+	void InitialiseGridPositionsList()
+	{
+
+		gridPositions.Clear();
+//		for (int x = 1; x < COLUMNS - 1; x++) 
+//		{
+//			for(int y = 1; y < ROWS - 1;y++){
+//				if(x == (COLUMNS - 1) / 2 && (y == ROWS - 2 || y == 1))
+//				{
+//					continue;
+//				}
+//				else if(y == (ROWS - 1) / 2 && (x == COLUMNS -2 || x == 1)){
+//					continue;
+//				}
+//				else{
+//					gridPositions.Add(new Vector3(x,y,0f));
+//				}
+//			}
+//		}
+
+
+		for (int x = 2; x < COLUMNS - 2; x++) 
+		{
+			for(int y = 2; y < ROWS - 2;y++){
+				gridPositions.Add(new Vector3(x,y,0f));
+			}
+		}
+	}
+
 
     //地形加载
     void BoardSetup(int level)
@@ -88,17 +137,42 @@ public class BoardManager : MonoBehaviour {
         boardHolder = new GameObject("Room").transform;
         //新建名为Enemy的GameObject
         enemyHolder = new GameObject("Enemy").transform;
+		//新建名为Item的GameObject
+		ChestHolder = new GameObject("Chest").transform;
+		//新建名为Trap的GameObject
+		trapHolder = new GameObject("Trap").transform;
+
+		//布置一些东西里添加(房间,敌人,物件)
+		instanceSomethingEvent += InstanceEnemy;
+		instanceSomethingEvent += InstanceObejct;
+		instanceSomethingEvent += InstanceRoom;
+
         //创建第一个房间的引用
         roomStart = new Room();
         //生成随机数
         System.Random ro = new System.Random(seed);
         //int resultRandom = ro.Next(seed);
         //初始化房间列表
-        InitialiseList();
+        InitialiseRoomPositionList();
         //初始化减1房间
         roomNum--;
         //开始创建随机房间,并人为的给第一个房间的开门数为3
-        CreateRandomRoom(boardHolder, roomStart, seed, ro, 3);    
+        CreateRandomRoom(boardHolder, roomStart, seed, ro, 3);
+
+//		Debug.Log ("min_xy:"+xy_min +"max_xy"+xy_max);
+
+		//初始化mapCamera的x,y值跟size值
+		Vector3 boardCenter = (BoardManager.xy_max + BoardManager.xy_min) / 2 - Vector3.forward * 5;
+		int size_x = (int)((BoardManager.xy_max.x-BoardManager.xy_min.x)/(BoardManager.COLUMNS - 1));
+		int size_y = (int)((BoardManager.xy_max.y-BoardManager.xy_min.y)/(BoardManager.ROWS - 1));
+		//3.2f是main_Camera的size值
+		float size_final = (size_x > size_y ? size_x  : size_y) * 3.2f;
+		Camera mapCamera = GameObject.Find("MapCamera").GetComponent<Camera>();
+		mapCamera.orthographicSize = size_final;
+		mapCamera.transform.position = boardCenter;
+		mapCamera.enabled = false;
+
+        isCreate = true;
     }
 
     //创建随机房间
@@ -113,19 +187,33 @@ public class BoardManager : MonoBehaviour {
         //Debug.Log("RoomNum:" + roomNum);
         //Debug.Log("I have doorOpen:" + doorOpen);
         //Debug.Log("room Vector2:(" + room.getPointX() + " " + room.getPointY() + ")");
-        //将坐标跟房间建立联系
+        
+		//求出整个board最小跟最大的两个Vector2
+		if(xy_min.x >= room.getPointX()){
+			xy_min.x = room.getPointX();
+		}
+		else{
+			xy_max.x = room.getPointX() + COLUMNS -1;
+		}
+
+		if(xy_min.y >= room.getPointY()){
+			xy_min.y = room.getPointY();
+		}
+		else{
+			xy_max.y = room.getPointY() + ROWS - 1;
+		}
+
+		//将坐标跟房间建立联系
         roomPosition.Add(new Vector2(room.getPointX(),room.getPointY()),room);
  
         //用随机数对4去模，取得初始选择的门
         int doorWhich = ro.Next(seed) % 4;
+	
+		//初始化gridPositions
+		InitialiseGridPositionsList();
 
-
-        //布置房间
-        InstanceRoom(parentRoom, room);
-
-  //      Debug.Log("Enemy: "+room.enemy);
-        //布置敌人，通过将种子跟roomNum相加来修改seed的值(roomNum每次循环-1)
-        InstanceEnemy(parentRoom,room,seed+roomNum);
+		//布置一些东西
+		InstanceSomething(parentRoom,room);
 
         //如果有打开的门
         while ( doorOpen > 0 && roomNum > 0 )
@@ -159,6 +247,8 @@ public class BoardManager : MonoBehaviour {
 
                 roomNext.setRoomID(roomID);
                 roomNext.setRoomNextEnemyNum(roomNext, roomMaxNum);
+				roomNext.setRoomNextObjectNum(roomNext, roomMaxNum);
+
                 //房间数跟开门数-1
                 roomNum--;
                 doorOpen--;
@@ -182,6 +272,15 @@ public class BoardManager : MonoBehaviour {
  
     }
 
+	//事件调用
+	void InstanceSomething(Transform parentRoom, Room room)
+	{
+		if(instanceSomethingEvent != null ){
+			instanceSomethingEvent(parentRoom,room);
+		}
+	}
+
+
     //实例化房间细节
     void InstanceRoom(Transform parentRoom, Room room)
     {
@@ -192,10 +291,14 @@ public class BoardManager : MonoBehaviour {
                 //先铺地板
                 GameObject toInstantiate = floor;
 
+
                 //给房间边缘边缘铺墙
                 if (x == room.getPointX() || x == room.getPointX() + COLUMNS - 1 || y == room.getPointY() || y == room.getPointY() + ROWS - 1)
                 {
-                        toInstantiate = wall;
+
+//					if( x == room.getPointX() + (COLUMNS - 1)/2 || y == room.getPointY() + (ROWS - 1)/2)
+//						continue;
+                    toInstantiate = wall;
                 }
                 //实例化toInstantiate在x,y坐标处并转为GameObject类型
                 GameObject instance =
@@ -209,19 +312,20 @@ public class BoardManager : MonoBehaviour {
         }//for (int x = room.getPointX(); x < room.getPointX() + COLUMNS; x++)
     }
 
-    void InstanceEnemy(Transform parenteRoom,Room room,int seed)
+	//实例化敌人
+    void InstanceEnemy(Transform parenteRoom,Room room)
     {
-        System.Random random = new System.Random(seed);
-       
+//        System.Random random = new System.Random(seed);
+
         while (room.enemy > 0)
         {
-            int xRandom = random.Next(COLUMNS-4) + 2;
-            int yRandom = random.Next(ROWS-4) + 2;
+
+			Vector3 randomGrid = RandomPosition();
+//            int xRandom = random.Next(COLUMNS-4) + 2;
+//            int yRandom = random.Next(ROWS-4) + 2;
             //Debug.Log("x :" + xRandom + " y: " + yRandom);
-            Vector3 enemySpawnPosition = new Vector3(room.getPointX() + xRandom, room.getPointY() + yRandom, 0);
-            GameObject enemyInstance = Instantiate(getRandomEnemy(), enemySpawnPosition, Quaternion.identity) as GameObject;
-            //初始化为不活动
-        //    enemyInstance.SetActive(false);
+			Vector3 enemySpawnPosition = new Vector3(room.getPointX() + randomGrid.x, room.getPointY() + randomGrid.y, 0);
+            GameObject enemyInstance = Instantiate(GetRandomEnemy(), enemySpawnPosition, Quaternion.identity) as GameObject;
             enemyInstance.transform.SetParent(enemyHolder);
             //限制循环
             room.enemy--;
@@ -237,13 +341,62 @@ public class BoardManager : MonoBehaviour {
         //Debug.Log("I am Create Enemy");
     }
 
+	void InstanceObejct(Transform parenteRoom,Room room)
+	{
+		while(room.chest > 0){
+			Vector3 randomGrid = RandomPosition();
+			Vector3 chestSpawnPosition = new Vector3(room.getPointX() + randomGrid.x, room.getPointY() + randomGrid.y, 0);
+			GameObject itemInstance = Instantiate(GetRandomChest(), chestSpawnPosition, Quaternion.identity) as GameObject;
+			itemInstance.transform.SetParent(ChestHolder);
+			room.chest--;
+		}
+		while(room.trap > 0){
+			Vector3 randomGrid = RandomPosition();
+			Vector3 trapSpawnPosition = new Vector3(room.getPointX() + randomGrid.x, room.getPointY() + randomGrid.y, 0);
+			GameObject trapInstance = Instantiate(GetRandomTrap(), trapSpawnPosition, Quaternion.identity) as GameObject;
+			trapInstance.transform.SetParent(trapHolder);
+			room.trap--;
+		}
+	}
+
+
     //获得随机敌人
-    GameObject getRandomEnemy()
+    GameObject GetRandomEnemy()
     {
+		if(enemies.Length == 0)
+			Debug.LogError("no enemy");
         GameObject enemy = enemies[UnityEngine.Random.Range(0, enemies.Length)];
         return enemy;
     }
 
+	//获得随机道具
+	GameObject GetRandomChest()
+	{
+		if(chests.Length == 0)
+			Debug.LogError("no chest");
+		GameObject item = chests[UnityEngine.Random.Range(0, chests.Length)];
+		return item;
+	}
+
+	//获得随机陷阱
+	GameObject GetRandomTrap()
+	{
+		if(traps.Length == 0)
+			Debug.LogError("no trap");
+		GameObject trap = traps[UnityEngine.Random.Range(0, traps.Length)];
+		return trap;
+	}
+
+
+
+	//随机gridPosition中的位置
+	Vector3 RandomPosition()
+	{
+		int randomIndex = UnityEngine.Random.Range (0,gridPositions.Count);
+		Vector3 randomPosition = gridPositions [randomIndex];
+		gridPositions.RemoveAt (randomIndex);
+		return randomPosition;
+	}
 
     //实例化门
     void InstanceDoor(Transform parentRoom, Room room)
@@ -265,6 +418,9 @@ public class BoardManager : MonoBehaviour {
     public void SetupScene(int level)
     {
         BoardSetup(level);
+
+		TextManager.instance.showTint("未知洞穴");
+
     }
 
    

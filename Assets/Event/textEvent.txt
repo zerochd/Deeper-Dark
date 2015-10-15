@@ -1,0 +1,19 @@
+﻿;;;;;;;;;
+[游戏开始]
+;;;;;;;;
+Begin
+	prologue
+	text	未知洞窟
+End
+
+
+;;;;;;;;;;;
+[获得宝箱里的道具]
+;;;;;;;;;;;
+Begin
+	target		player
+	target		chest
+	condition	chest	isOpened	false
+	text		获得了道具
+End
+

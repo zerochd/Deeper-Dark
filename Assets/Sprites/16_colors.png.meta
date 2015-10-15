@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: 6310ea372d1d0b64d98e7fc38ba06c39
+timeCreated: 1444550351
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: wall_1
+    21300002: hole_0
+    21300004: trap_0
+    21300006: wall_0
+    21300008: ground_0
+    21300010: med_HP_small
+    21300012: equip_light
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: wall_1
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 919
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hole_0
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 919
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: trap_0
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 919
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 1936
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ground_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 950
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: med_HP_small
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 2931
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: equip_light
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 2972
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

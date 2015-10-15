@@ -7,6 +7,9 @@ public class Room{
     Vector2 openDoorVector;                     //记录下一个打开房间的坐标
     public int enemy;                                  //敌人数
     public int boss;                                   //boss数量
+	public int chest;								   //宝箱数量
+	public int trap;								   //陷阱数量
+
 
     private int roomID;
     public Room[] nextRoom;                       //房间数组放上下左右四个房间的句柄
@@ -144,7 +147,7 @@ public class Room{
     //反之添加敌人
     public void setRoomNextEnemyNum(Room nextRoom,int roomMaxNum)
     {
-        Debug.Log("roomID: " +nextRoom.roomID);
+        //Debug.Log("roomID: " +nextRoom.roomID);
         
         if (nextRoom.roomID == roomMaxNum / 2 + 1)
         {
@@ -156,4 +159,14 @@ public class Room{
             nextRoom.boss = 0;
         }
     }
+
+	//设置下一个房间物件(陷阱,道具)的数量策略
+	public void setRoomNextObjectNum(Room nextRoom,int roomMaxNum)
+	{
+		//避免在boss的房间产生宝箱和陷阱
+		if(nextRoom.boss == 0){
+			nextRoom.chest = UnityEngine.Random.Range(1,2);
+			nextRoom.trap = UnityEngine.Random.Range(1,2);
+		}
+	}
 }
