@@ -51,12 +51,15 @@ public class BoardManager : MonoBehaviour {
 	public GameObject[] chests;
 	//陷阱类型
 	public GameObject[] traps;
+	//云类型
+	public GameObject cloud;
 
     private Transform boardHolder;                      //board的Transform句柄
     private Transform roomHolder;                       //room的Transform句柄
     private Transform enemyHolder;                      //enemy的Transform句柄
 	private Transform ChestHolder;						//item的Transform句柄
 	private Transform trapHolder;						//trap的Transform句柄
+	private Transform cloudHolder;						//cloud的Transorm句柄
 
                                           
     private Room roomStart;                             //房间的根节点
@@ -101,25 +104,7 @@ public class BoardManager : MonoBehaviour {
 	//初始化可放置格子，排除掉靠近门的四个格子
 	void InitialiseGridPositionsList()
 	{
-
 		gridPositions.Clear();
-//		for (int x = 1; x < COLUMNS - 1; x++) 
-//		{
-//			for(int y = 1; y < ROWS - 1;y++){
-//				if(x == (COLUMNS - 1) / 2 && (y == ROWS - 2 || y == 1))
-//				{
-//					continue;
-//				}
-//				else if(y == (ROWS - 1) / 2 && (x == COLUMNS -2 || x == 1)){
-//					continue;
-//				}
-//				else{
-//					gridPositions.Add(new Vector3(x,y,0f));
-//				}
-//			}
-//		}
-
-
 		for (int x = 2; x < COLUMNS - 2; x++) 
 		{
 			for(int y = 2; y < ROWS - 2;y++){
@@ -141,6 +126,8 @@ public class BoardManager : MonoBehaviour {
 		ChestHolder = new GameObject("Chest").transform;
 		//新建名为Trap的GameObject
 		trapHolder = new GameObject("Trap").transform;
+		//新建名为cloud的GameObject
+		cloudHolder = new GameObject("Cloud").transform;
 
 		//布置一些东西里添加(房间,敌人,物件)
 		instanceSomethingEvent += InstanceEnemy;
@@ -296,17 +283,24 @@ public class BoardManager : MonoBehaviour {
                 if (x == room.getPointX() || x == room.getPointX() + COLUMNS - 1 || y == room.getPointY() || y == room.getPointY() + ROWS - 1)
                 {
 
-//					if( x == room.getPointX() + (COLUMNS - 1)/2 || y == room.getPointY() + (ROWS - 1)/2)
-//						continue;
                     toInstantiate = wall;
                 }
                 //实例化toInstantiate在x,y坐标处并转为GameObject类型
                 GameObject instance =
                         Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
 
-
                 //设置父节点为Room
                 instance.transform.SetParent(parentRoom);
+
+				if(cloud == null)
+					continue;
+
+				//生成房间上方的云
+				if( x == room.getPointX() + (COLUMNS - 1)/2 && y == room.getPointY() + (ROWS - 1)/2)
+				{
+					GameObject cloudInstance = Instantiate(cloud,new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+					cloudInstance.transform.SetParent(cloudHolder);
+				}
 
             }//for (int y = room.getPointY(); y < room.getPointY() + ROWS; y++)
         }//for (int x = room.getPointX(); x < room.getPointX() + COLUMNS; x++)
@@ -315,15 +309,9 @@ public class BoardManager : MonoBehaviour {
 	//实例化敌人
     void InstanceEnemy(Transform parenteRoom,Room room)
     {
-//        System.Random random = new System.Random(seed);
-
         while (room.enemy > 0)
         {
-
 			Vector3 randomGrid = RandomPosition();
-//            int xRandom = random.Next(COLUMNS-4) + 2;
-//            int yRandom = random.Next(ROWS-4) + 2;
-            //Debug.Log("x :" + xRandom + " y: " + yRandom);
 			Vector3 enemySpawnPosition = new Vector3(room.getPointX() + randomGrid.x, room.getPointY() + randomGrid.y, 0);
             GameObject enemyInstance = Instantiate(GetRandomEnemy(), enemySpawnPosition, Quaternion.identity) as GameObject;
             enemyInstance.transform.SetParent(enemyHolder);
@@ -419,7 +407,7 @@ public class BoardManager : MonoBehaviour {
     {
         BoardSetup(level);
 
-		TextManager.instance.showTint("未知洞穴");
+		TextManager.Instance.showTint("未知洞穴");
 
     }
 

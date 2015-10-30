@@ -35,7 +35,7 @@ public class Loading : MonoBehaviour {
     {
         progress = (int)(async.progress * 100);
         loading_text.text = "loading:" + progress + "%";
-        Debug.Log("progress:" + progress);
+//        Debug.Log("progress:" + progress);
 
     }
 }

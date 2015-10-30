@@ -4,12 +4,15 @@ using UnityEngine.UI;
 
 public class MyToggle : Toggle {
 
-	public delegate void StartMenuDelegate();
+	public delegate void ToggleClickDelegate();
 	public delegate void ShowDescriptionDelegate(Item item);
 	
-	public event StartMenuDelegate StartMenuEvent;
+	public event ToggleClickDelegate ToggleClickEvent;
 	public static event ShowDescriptionDelegate showDescriptionEvent;
 
+	void Awake(){
+		showDescriptionEvent = null;
+	}
 
 	void Start () {
 		//获取当前toggle所在的group
@@ -20,17 +23,19 @@ public class MyToggle : Toggle {
 
 		if(isOn){
 			targetGraphic.color = new Color(1f,0.7f,0.7f,0.7f);
-			ShowDescription(GetComponent<ItemInBag>().item);
+			if(GetComponent<ItemInBag>()){
+				ShowDescription(GetComponent<ItemInBag>().GetItem());
+			}
 		}
 		else{
 			targetGraphic.color = new Color(1f,1f,1f,1f);
 		}
 	}
 
-	//运行菜单功能，根据绑定的其他脚本来注册该事件
-	public void StartMenu(){
-		if(StartMenuEvent!=null){
-			StartMenuEvent();
+	//运行单击功能，根据绑定的其他脚本来注册该事件
+	public void ToggleClick(){
+		if(ToggleClickEvent!=null){
+			ToggleClickEvent();
 		}
 	}
 

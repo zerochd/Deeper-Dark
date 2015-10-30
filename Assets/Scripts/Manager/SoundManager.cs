@@ -1,60 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SoundManager : MonoBehaviour {
+public enum SOUND_CHANNEL{
+	NONE = -1,
+	PLAYER = 0,
+	ENEMY = 1,
+	BACKGROUND
+}
+
+public class SoundManager : UnitySingleton<SoundManager> {
 
 	public AudioSource enemySource;
 	public AudioSource playerSource;
 	public AudioSource bkSoundSource;
 
 //	public AudioSource musicSource;
-	public static SoundManager instance = null;
+//	public static SoundManager instance = null;
 	
 	public float lowPitchRange = 0.95f;
 	public float highPitchRange = 1.05f;
 	
-	// Use this for initialization
-	void Awake () {
-		if (instance == null)
-			instance = this;
-		else if (instance != this)
-			Destroy (gameObject);
-		DontDestroyOnLoad (gameObject);
-		
-	}
+//	// Use this for initialization
+//	void Awake () {
+//		if (instance == null)
+//			instance = this;
+//		else if (instance != this)
+//			Destroy (gameObject);
+//		DontDestroyOnLoad (gameObject);
+//		
+//	}
 	
-	public void PlaySingle(string characterType,AudioClip clip){
-		switch(characterType)
+	public void PlaySingle(SOUND_CHANNEL soundType,AudioClip clip){
+		switch(soundType)
 		{
 
-			case "player":
+			case SOUND_CHANNEL.PLAYER:
 				playerSource.clip = clip;
 				playerSource.Play();
 				break;
 
-			case "enemy":
+			case SOUND_CHANNEL.ENEMY:
 				enemySource.clip = clip;
 				enemySource.Play();
 				break;
 
-			case "background":
+			case SOUND_CHANNEL.BACKGROUND:
 				bkSoundSource.clip = clip;
 				bkSoundSource.Play();
 				break;
 
 			default:
-			Debug.Log ("no this characterType");break;
+			Debug.Log ("no this soundType");break;
 
 		}
 
 	}
 	
-	public void RandomizeSfx(string characterType,params AudioClip[] clips){
+	public void RandomizeSfx(SOUND_CHANNEL soundType,params AudioClip[] clips){
 		int randomIndex = Random.Range (0, clips.Length);
 
 //		float randomPitch = Random.Range (lowPitchRange, highPitchRange);
 
-		PlaySingle(characterType,clips [randomIndex]);
+		PlaySingle(soundType,clips [randomIndex]);
 		
 	}
 }

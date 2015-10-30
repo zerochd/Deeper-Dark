@@ -5,7 +5,12 @@ using System;
 
 public class Enemy : AllCharacter
 {
-    private bool hasSpawn;
+
+    protected bool hasSpawn;
+
+	//标志是否第一次出现
+	protected bool isBorn = true;
+
 	private AIMode step = AIMode.NONE;
 	private AIMode nextStep = AIMode.NONE;
 	private bool foundPlayer = false;
@@ -14,7 +19,7 @@ public class Enemy : AllCharacter
 	private float distanceFromWall = -2f;
 
 	//攻击距离
-	private float distanceFromPlayer = -0.2f;
+	private float distanceFromPlayer = -0.4f;
 
 	//冲刺速度
 	private float boost = 1f;
@@ -22,14 +27,20 @@ public class Enemy : AllCharacter
 	//玩家的变换,敌人一开始不知道
 	private Transform playerTransform = null;
 
-	//玩家的被发现的位置
-	private Vector3 PlayerLastedPosition = Vector3.zero;
+//	//玩家的被发现的位置
+//	private Vector3 PlayerLastedPosition = Vector3.zero;
 
 	//接触到玩家
 	private bool playerTouch = false;
 
 	//面向方向
 	private bool facingRight = false;
+
+	//接触墙壁
+	private bool wallTouch = false;
+
+	//设置是否能移动
+	private bool canMove = true;
 
 	//动画
 	private Animator enemyAnim;
@@ -43,8 +54,14 @@ public class Enemy : AllCharacter
 	//怪物攻击音效
 	public AudioClip enemyAttackClip;
 
+	//怪物被攻击音效
+	public AudioClip enemyHurtClip;
+
 	//怪物死亡音效
 	public AudioClip enemyDieClip;
+
+	//怪物出生下落的音效
+	public AudioClip enemyFallClip;
 
 	//死亡特效
 	public GameObject dieEffect;
@@ -72,8 +89,8 @@ public class Enemy : AllCharacter
 		switch(enemyType){
 
 			case ENEMY_TYPE.NORMAL:{
-				hp = 1;
-				damage = 10;
+				hp = 3;
+				damage = 20;
 				speed = -0.8f;
 			}
 			break;
@@ -92,7 +109,7 @@ public class Enemy : AllCharacter
 	// Update is called once per frame
 	void Update () {
 
-		IsDead();
+//		IsDead();
 
         if (hasSpawn == false)
         {
@@ -103,19 +120,15 @@ public class Enemy : AllCharacter
         }
         else
         {
-			if (!GetComponent<SpriteRenderer>().IsVisibleFrom(Camera.main))
+			if (!GetComponent<SpriteRenderer>().IsVisibleFrom(Camera.main) && isBorn == false)
             {
-				Debug.Log ("Stop true");
+//				Debug.Log ("Stop true");
 				Stop();
 //                Destroy(gameObject);
             }
-			StateMachine();
+			if(isBorn == false && canMove == true)
+				StateMachine();
         }
-
-
-
-
-
 	}
 	
 
@@ -126,8 +139,12 @@ public class Enemy : AllCharacter
 	void Spawn()
 	{
 		hasSpawn = true;
-		Debug.Log ("spawn true");
+//		Debug.Log ("spawn true");
 		//开启一切组件
+		if(isBorn == true){
+//			Debug.Log ("am born");
+			StartCoroutine(EnemyBorn());
+		}
 	}
 	
 	
@@ -143,7 +160,7 @@ public class Enemy : AllCharacter
 		{
 			switch(this.step){
 			case AIMode.WAIT:
-				if(true == hasSpawn){
+				if(true == hasSpawn && false == isBorn){
 //					Debug.Log ("search");
 					nextStep = AIMode.SEARCH;
 				}
@@ -184,7 +201,6 @@ public class Enemy : AllCharacter
 				}
 					break;
 				case AIMode.SEARCH:{
-
 				}
 					break;
 				case AIMode.ATTACK:{
@@ -216,37 +232,11 @@ public class Enemy : AllCharacter
 
 			//攻击模式，往玩家的位置移动
 			case AIMode.ATTACK:{
-//				StartCoroutine(EnemySmoothMove());
-				//当找到玩家上一个位置的时候
-
-
-//				playerTouch = Physics2D.Linecast(this.transform.position,
-//			                                 new Vector2(this.transform.position.x + distanceFromPlayer,this.transform.position.y),
-//			                                 1 << LayerMask.NameToLayer("Player"));
-
-				if(PlayerLastedPosition != Vector3.zero){
-
-//					playerTouch = Physics2D.Linecast(this.transform.position,
-//				                                 new Vector2(this.transform.position.x + distanceFromPlayer,this.transform.position.y),
-//				                                 1 << LayerMask.NameToLayer("Player"));
-					
-					EnemyDirectMove(this.PlayerLastedPosition,playerTouch);
-
-//					if(playerTouch){
-//						PlayerLastedPosition = Vector3.zero;
-//						enemyAnim.SetTrigger("attack");
-
-				}
-
-//				if(playerTouch){
-//
-//					PlayerLastedPosition = Vector3.zero;
-//					enemyAnim.SetTrigger("attack");
-//					playerTouch = false;
-//					
-//
+//				if(PlayerLastedPosition != Vector3.zero){
+				if(this.playerTransform != null)
+					EnemyDirectMove(this.playerTransform.position,playerTouch);
 //				}
-				
+
 			}
 				break;
 				
@@ -263,6 +253,10 @@ public class Enemy : AllCharacter
 	//设置是否找到玩家
 	public void HaveFoundPlayer(Transform someoneTransform){
 
+		//放置出生途中获取玩家
+		if(isBorn == true)
+			return;
+
 		//传递玩家的Transform
 		this.playerTransform = someoneTransform;
 
@@ -273,16 +267,16 @@ public class Enemy : AllCharacter
 			//显示惊叹标志
 			Point.SetActive(true);
 
-			//传递玩家的位置
-			this.PlayerLastedPosition = someoneTransform.position;
+//			//传递玩家的位置
+//			this.PlayerLastedPosition = someoneTransform.position;
 		}
 		else{
 			foundPlayer = false;
 
 			//显示惊叹标志
 			Point.SetActive(false);
-
-			this.PlayerLastedPosition = Vector2.zero;
+//
+//			this.PlayerLastedPosition = Vector2.zero;
 		}
 
 	}
@@ -301,10 +295,26 @@ public class Enemy : AllCharacter
 		return wallTouched;
 	}
 
+	//敌人出生效果
+	IEnumerator EnemyBorn(){
+		Vector3 bornVec = this.transform.position + Vector3.up * 10f;
+		Vector3 endVec = this.transform.position;
+
+		if(enemyFallClip!=null){
+			AudioSource.PlayClipAtPoint(enemyFallClip,Vector3.zero,0.05f);
+		}
+
+		while(bornVec.y - endVec.y > float.Epsilon){
+			bornVec.y -= 15f*Time.deltaTime;
+			this.transform.position = bornVec;
+			yield return null;
+		}
+		isBorn = false;
+	}
+
 	//角色转身
-	void Flip ()
+	public void Flip ()
 	{
-		
 		// Switch the way the player is labelled as facing.
 		facingRight = !facingRight;
 		
@@ -317,45 +327,47 @@ public class Enemy : AllCharacter
 		speed *= -1f;
 	}
 
+	void OnCollisionEnter2D(Collision2D other){
+		if(!other.gameObject.CompareTag("Player")){
+			Flip();
+		}
+	}
+
 	//敌人攻击距离判定
 	IEnumerator EnemyAttackRange(){
 		while(true){
-
 			playerTouch = Physics2D.Linecast(this.transform.position,
 			                                 new Vector2(this.transform.position.x + distanceFromPlayer,this.transform.position.y),
 			                                 1 << LayerMask.NameToLayer("Player"));
 
 			//如果接触到玩家的话,下一个玩家接触检测延迟0.8s+1帧,设置玩家位置为空，
 			//设置动画为attack
-			if(playerTouch && IsFoundPlayer() == true){
+			if(playerTouch && IsFoundPlayer() == true && playerTransform != null){
 
-				Vector3 dir = (playerTransform.position - this.transform.position).normalized;
+				Vector3 dir = (playerTransform.position - this.transform.position);
 				
 				Vector3 attackMoveEnd = playerTransform.position + dir*0.5f;
 
 				//玩家被击飞移动
-				StartCoroutine(playerTransform.GetComponent<Player>().EnemyAttackForce(attackMoveEnd));
+				playerTransform.GetComponent<Player>().HurtForce(attackMoveEnd);
 
 				//减少玩家的血量
 				playerTransform.GetComponent<Player>().SetHP(damage);
 
-				//重置玩家被找到的位置
-				PlayerLastedPosition = Vector3.zero;
+//				//重置玩家被找到的位置
+//				PlayerLastedPosition = Vector3.zero;
 
 				//开始攻击动画
 				enemyAnim.SetTrigger("attack");
 
-
-
 				//开始攻击音效
-				SoundManager.instance.PlaySingle("enemy",enemyAttackClip);
+				SoundManager.Instance.PlaySingle(SOUND_CHANNEL.ENEMY,enemyAttackClip);
 
-				playerTouch = false;
+//				playerTouch = false;
 
 				yield return new WaitForSeconds(0.8f);
 
 				//重新寻找玩家
-
 				HaveFoundPlayer(null);
 			}
 
@@ -363,90 +375,43 @@ public class Enemy : AllCharacter
 		}
 	}
 
-//	//攻击击飞
-//	IEnumerator EnemyAttackForce(Vector3 attackMoveEnd){
-//
-//		if(IsFoundPlayer() == false){
-//			yield break;
-//		}
-//
-//		Debug.Log ("foundplayer:"+foundPlayer + "playerTramsform:"+ playerTransform);
-//
-//		//设置玩家不能动
-////		playerTransform.GetComponent<Player>().SetControl(false);
-//
-//		//获得移动距离
-//		float sqrRemainingDistance = (playerTransform.position - attackMoveEnd).sqrMagnitude;
-//		float maxDistanceDelta = 4f ;
-//
-//		//设置玩家的动画状态为hurt
-//		playerTransform.GetComponent<Player>().SetAnimTrigger("hurt");
-//
-//		playerTransform.GetComponent<Player>().SetSuper(true);
-//
-//		while (sqrRemainingDistance > float.Epsilon && !playerTransform.GetComponent<Player>().wallTouch)
-//		{
-//			//Debug.Log("正在移动");
-//			Vector3 newPosition = Vector3.MoveTowards(playerTransform.position, attackMoveEnd, maxDistanceDelta * Time.deltaTime);
-//
-////			Vector3 newPosition = Vector3.MoveTowards(playerTransform.position, attackMoveEnd, maxDistanceDelta * Time.deltaTime);
-//			playerTransform.position = newPosition;
-//			sqrRemainingDistance = (playerTransform.position - attackMoveEnd).sqrMagnitude;
-//
-//
-//			yield return null;
-//		}
-//		yield return new WaitForSeconds(0.3f);
-//		//设置玩家可以操控
-////		playerTransform.GetComponent<Player>().SetControl(true);
-//			
-//	}
+	//敌人被击飞
+	public IEnumerator EnemyHurtForce(Vector3 attackMoveEnd){
+		
+		//设置敌人不能动
+		canMove = false;
+		
+		//获得移动距离
+		float sqrRemainingDistance = (this.transform.position - attackMoveEnd).sqrMagnitude;
+		float maxDistanceDelta = 4f ;
+		
+		while (sqrRemainingDistance > float.Epsilon && !wallTouch)
+		{
+			//Debug.Log("正在移动");
+			Vector3 newPosition = Vector3.MoveTowards(this.transform.position, attackMoveEnd, maxDistanceDelta * Time.deltaTime);
+			this.transform.position = newPosition;
+			sqrRemainingDistance = (this.transform.position - attackMoveEnd).sqrMagnitude;
+			//			Debug.Log ("sqrRemainingDistance"+sqrRemainingDistance);
+			GetComponent<SpriteRenderer>().material.color = new Color(1f,1f,1f,0.3f);
+			yield return null;
+		}
+		yield return new WaitForSeconds(0.3f);
+		GetComponent<SpriteRenderer>().material.color = new Color(1f,1f,1f,1f);
+		canMove = true;
+	}
 
-
-//
-//	void LookRight(){
-//		facingRight = true;
-//		Vector3 theScale = transform.localScale;
-//		theScale.x = -1;
-//		transform.localScale = theScale;
-//		distanceFromWall = -1f;
-//	}
-////
-//	void LookLeft(){
-//		facingRight = false;
-//		Vector3 theScale = transform.localScale;
-//		theScale.x = 1;
-//		transform.localScale = theScale;
-//		distanceFromWall = 1f;
-//	}
-//	
-
-//	//敌人追踪移动
-//	IEnumerator EnemySmoothMove()
-//	{
-//
-//		while(playerTransform != null){
-//			Vector3 moveEnd = playerTransform.position;
-//			//Debug.Log("正在移动");
-//
-//			//当玩家在敌人左边保持向左，反之向右
-//			if(playerTransform.position.x  - this.transform.position.x <= float.Epsilon){
-//				LookLeft();
-//			}
-//			else{
-//				LookRight();
-//			}
-//
-////			this.transform.Translate(dir*0.01f*Time.deltaTime);//不停地移动
-//			Vector3 newPosition = Vector3.MoveTowards(this.transform.position, moveEnd, inverseTime * Time.deltaTime);
-//
-//			transform.position = newPosition;
-//	
-//			yield return null;
-//		}
-//		
-//		
-//	}
+	void OnCollisionStay2D(Collision2D other){
+		
+		if(other.gameObject.tag.Equals("Wall")){
+			wallTouch = true;
+		}
+	}
+	
+	void OnCollisionExit2D(Collision2D other){
+		if(other.gameObject.tag.Equals("Wall")){
+			wallTouch = false;
+		}
+	}
 
 	//如果传入的是Transform,就是实时跟踪，不然就是定点跟踪
 //	void EnemySmoothMove(Vector3 moveEnd){
@@ -458,10 +423,24 @@ public class Enemy : AllCharacter
 	//根据找到上一个玩家的位置进行跟踪
 	void EnemyDirectMove(Vector3 moveEnd,bool playerTouch){
 
+		if(!IsFoundPlayer())
+			return;
+
 		float sqrRemainingDistance = (this.transform.position - moveEnd).sqrMagnitude;
 
 		if(sqrRemainingDistance > float.Epsilon && playerTouch == false){
 			Vector3 newPosition = Vector3.MoveTowards(this.transform.position, moveEnd, (Mathf.Abs(speed)+boost) * Time.deltaTime);
+			if(this.transform.position.x < moveEnd.x){
+				if(facingRight == false){
+					Flip();
+				}
+			}
+			else{
+				if(facingRight == true){
+					Flip();
+				}
+			}
+
 			transform.position = newPosition;
 		}
 		else{
@@ -470,29 +449,46 @@ public class Enemy : AllCharacter
 	}
 
 	//受伤
-	public void Hurt(int damage){
+	public void SetHP(int damage){
 
 		//生命值
 		hp = hp - damage;
 
-	}
+		if(damage>0){
+			if(enemyHurtClip!=null){
+				//				AudioSource.PlayClipAtPoint(bossHurtClip,Vector2.zero);
+				if(Player.instance!=null){
+					Vector3 dir = (this.transform.position - Player.instance.transform.position).normalized;
+					Vector3 attackMoveEnd = this.transform.position + dir*0.5f;
+					StartCoroutine(EnemyHurtForce(attackMoveEnd));
+				}
+				SoundManager.Instance.PlaySingle(SOUND_CHANNEL.BACKGROUND,enemyHurtClip);
+			}
+		}
 
-
-
-	void IsDead(){
 		if(hp <= 0){
-//			gameObject.GetComponent<BoxCollider2D>().enabled = false;
-//			gameObject.GetComponent<SpriteRenderer>().enabled = false;
-//			Point.GetComponent<SpriteRenderer>().enabled = false;
-//			Invoke("DeadDestory",0.5f);
-			SoundManager.instance.PlaySingle("enemy",enemyDieClip);
+			SoundManager.Instance.PlaySingle(SOUND_CHANNEL.ENEMY,enemyDieClip);
 			//实例化死亡特效
 			if(dieEffect != null){
-				Instantiate(dieEffect, this.transform.position, this.transform.rotation);
+//				Instantiate(dieEffect, this.transform.position, this.transform.rotation);
+				GameObject go = Instantiate(dieEffect) as GameObject;
+				go.transform.position = this.transform.position;
 			}
 			Destroy(this.gameObject);
 		}
+
 	}
+
+//	private void IsDead(){
+//		if(hp <= 0){
+//			SoundManager.Instance.PlaySingle(SOUND_CHANNEL.ENEMY,enemyDieClip);
+//			//实例化死亡特效
+//			if(dieEffect != null){
+//				Instantiate(dieEffect, this.transform.position, this.transform.rotation);
+//			}
+//			Destroy(this.gameObject);
+//		}
+//	}
 
 //	void DeadDestory(){
 //		Destroy(this.gameObject);

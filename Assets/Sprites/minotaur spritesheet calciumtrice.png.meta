@@ -1,0 +1,655 @@
+fileFormatVersion: 2
+guid: db04383f43ed1db46a9e24d907ee751f
+timeCreated: 1445788418
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: boss0_idle0
+    21300002: boss0_idle1
+    21300004: boss0_idle2
+    21300006: boss0_idle3
+    21300008: boss0_idle4
+    21300010: boss0_idle5
+    21300012: boss0_idle6
+    21300014: boss0_idle7
+    21300016: boss0_idle8
+    21300018: boss0_idle9
+    21300020: boss0_ges0
+    21300022: boss0_ges1
+    21300024: boss0_ges2
+    21300026: boss0_ges3
+    21300028: boss0_ges4
+    21300030: boss0_ges5
+    21300032: boss0_ges6
+    21300034: boss0_ges7
+    21300036: boss0_ges8
+    21300038: boss0_ges9
+    21300040: boss0_move0
+    21300042: boss0_move1
+    21300044: boss0_move2
+    21300046: boss0_move3
+    21300048: boss0_move4
+    21300050: boss0_move5
+    21300052: boss0_move6
+    21300054: boss0_move7
+    21300056: boss0_move8
+    21300058: boss0_move9
+    21300060: boss0_attack0
+    21300062: boss0_attack1
+    21300064: boss0_attack2
+    21300066: boss0_attack3
+    21300068: boss0_attack4
+    21300070: boss0_attack5
+    21300072: boss0_attack6
+    21300074: boss0_attack7
+    21300076: boss0_attack8
+    21300078: boss0_attack9
+    21300080: boss0_die0
+    21300082: boss0_die1
+    21300084: boss0_die2
+    21300086: boss0_die3
+    21300088: boss0_die4
+    21300090: boss0_die5
+    21300092: boss0_die6
+    21300094: boss0_die7
+    21300096: boss0_die8
+    21300098: boss0_die9
+    21300100: boss0-idle0
+    21300102: boss0-idle1
+    21300104: boss0-idle2
+    21300106: boss0-idle3
+    21300108: boss0-idle4
+    21300110: boss0-idle5
+    21300112: boss0-idle6
+    21300114: boss0-idle7
+    21300116: boss0-idle8
+    21300118: boss0-idle9
+    21300120: boss0-ges0
+    21300122: boss0-ges1
+    21300124: boss0-ges2
+    21300126: boss0-ges3
+    21300128: boss0-ges4
+    21300130: boss0-ges5
+    21300132: boss0-ges6
+    21300134: boss0-ges7
+    21300136: boss0-ges8
+    21300138: boss0-ges9
+    21300140: boss0-move0
+    21300142: boss0-move1
+    21300144: boss0-move2
+    21300146: boss0-move3
+    21300148: boss0-move4
+    21300150: boss0-move5
+    21300152: boss0-move6
+    21300154: boss0-move7
+    21300156: boss0-move8
+    21300158: boss0-move9
+    21300160: boss0-attack0
+    21300162: boss0-attack1
+    21300164: boss0-attack2
+    21300166: boss0-attack3
+    21300168: boss0-attack4
+    21300170: boss0-attack5
+    21300172: boss0-attack6
+    21300174: boss0-attack7
+    21300176: boss0-attack8
+    21300178: boss0-attack9
+    21300180: boss0-die0
+    21300182: boss0-die1
+    21300184: boss0-die2
+    21300186: boss0-die3
+    21300188: boss0-die4
+    21300190: boss0-die5
+    21300192: boss0-die6
+    21300194: boss0-die7
+    21300196: boss0-die8
+    21300198: boss0-die9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: boss0-idle0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 192
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 192
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 192
+        width: 31
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle3
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 192
+        width: 31
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 192
+        width: 31
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle5
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 192
+        width: 32
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle6
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 192
+        width: 32
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle7
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 192
+        width: 32
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle8
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 192
+        width: 32
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-idle9
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 192
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 144
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 144
+        width: 31
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges2
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 144
+        width: 33
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 144
+        width: 33
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges4
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 144
+        width: 33
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges5
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 144
+        width: 33
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges6
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 144
+        width: 32
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges7
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 144
+        width: 32
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges8
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 144
+        width: 32
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-ges9
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 144
+        width: 31
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 96
+        width: 33
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move1
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 96
+        width: 35
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 96
+        width: 36
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move3
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 96
+        width: 35
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move4
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 96
+        width: 34
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move5
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 96
+        width: 33
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move6
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 96
+        width: 31
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move7
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 96
+        width: 29
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move8
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 96
+        width: 29
+        height: 33
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-move9
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 96
+        width: 31
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 48
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack1
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 48
+        width: 30
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack2
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 48
+        width: 27
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack3
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 48
+        width: 25
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack4
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 48
+        width: 23
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack5
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 48
+        width: 24
+        height: 36
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack6
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 48
+        width: 36
+        height: 38
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack7
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 48
+        width: 38
+        height: 37
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 48
+        width: 40
+        height: 31
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-attack9
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 48
+        width: 40
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 0
+        width: 32
+        height: 32
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 0
+        width: 31
+        height: 30
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 31
+        height: 27
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die3
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 0
+        width: 34
+        height: 26
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die4
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 0
+        width: 35
+        height: 25
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die5
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 0
+        width: 30
+        height: 25
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die6
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 0
+        width: 30
+        height: 24
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die7
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 0
+        width: 28
+        height: 20
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die8
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 0
+        width: 30
+        height: 14
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: boss0-die9
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 32
+        height: 8
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

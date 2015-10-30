@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 4235590227
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dde2288d0a9e02835fb2bfa1d672c507
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7715a43d98d6762a0655a44ec1bd1c9b
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 613afb4f9e95800428678bcd25720e5b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Prefab/Item/equip_sword.prefab
+- Assets/Prefab/Item/med_HP_big.prefab
+- Assets/Prefab/Item/equip_armor.prefab
+- Assets/Prefab/Item/equip_light.prefab
+- Assets/Prefab/Item/med_HP_small.prefab
+Dependencies: []

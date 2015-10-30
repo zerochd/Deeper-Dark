@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6310ea372d1d0b64d98e7fc38ba06c39
-timeCreated: 1444550351
+timeCreated: 1446126816
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,10 @@ TextureImporter:
     21300008: ground_0
     21300010: med_HP_small
     21300012: equip_light
+    21300014: equip_armor
+    21300016: Equip_Sword_One
+    21300018: med_HP_big
+    21300020: brick
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -121,6 +125,46 @@ TextureImporter:
         serializedVersion: 2
         x: 418
         y: 2972
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: equip_armor
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 2611
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Equip_Sword_One
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 2451
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: med_HP_big
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 2932
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: brick
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 950
         width: 32
         height: 32
       alignment: 0

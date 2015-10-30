@@ -5,12 +5,19 @@ public class Player : AllCharacter {
 
 
 	private static readonly string IdleState = "Base Layer.player-idle";
-
 	private static readonly string HurtState = "Base Layer.player-hurt";
 //	private static readonly string AttackState = "Base Layer.player-attack";
 
+	public static Player instance = null;
+
+	//装备
+	public Transform equipment;
+
     int exp;                        //经验值
     int level;                      //等级
+	public int armor{get;set;}		//护甲
+	//朝向右边
+	public bool facingRight 	= true;
 
     //人物移动至下一个房间的速度
     float inverseTime;
@@ -20,9 +27,6 @@ public class Player : AllCharacter {
 
 	//能否移动
     bool canMove 		= true;
-
-	//朝向右边
-	bool facingRight 	= true;
 
 	//能否攻击
 	bool canAttack		= true;
@@ -44,6 +48,13 @@ public class Player : AllCharacter {
 
 	public AudioClip playerAttackClip;
 
+	public AudioClip playerHurtClip;
+
+	public AudioClip playerDieClip;
+
+	//死亡特效
+	public GameObject dieEffect;
+
 //	public bool AmSuper{
 //		get
 //		{
@@ -53,24 +64,33 @@ public class Player : AllCharacter {
 
 	//方法
 
+	void Awake () {
+		if (instance == null)
+			instance = this;
+		else if (instance != this)
+			Destroy (gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
-
 		hp = 100;
 		damage = 1;
 		speed = 2.5f;
-
+		armor = 1;
 
         inverseTime = 10f;
 
 		attackPoint = GameObject.Find("attackPoint").GetComponent<CircleCollider2D>();
 		playerAnim = GetComponent<Animator>();
+//		GetComponent<Rigidbody2D>().AddForce(Vector2.right*500f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		if(Globe.game_state != Globe.GAME_STATE.RUNNING){
+			//停止速度
+			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 			return;
 		}
 
@@ -79,9 +99,9 @@ public class Player : AllCharacter {
 			superTime -= Time.deltaTime;
 		}
 		else{
+//			SetControl(true);
 			SetSuper(false);
 		}
-
 
 		if(canControl){
 			canMove = IsAnimState(IdleState,playerAnim)||IsAnimState(HurtState,playerAnim);
@@ -103,16 +123,21 @@ public class Player : AllCharacter {
 		return this.damage;
 	}
 
-
+	public void SetDamage(int e_damage){
+		this.damage = e_damage;
+	}
 
 	public void SetControl(bool value){
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 		canControl = value;
 	}
 
+	//设置animTrigger
 	public void SetAnimTrigger(string name){
 		if(name != null){
 			playerAnim.SetTrigger(name);
+		}else{
+			Debug.LogError("no this anim");
 		}
 	}
 
@@ -128,8 +153,6 @@ public class Player : AllCharacter {
 		if (stateinfo.fullPathHash == Animator.StringToHash(animatorStateInfo))
 			return true;
 		return false;
-
-
 	}
 
 
@@ -153,6 +176,7 @@ public class Player : AllCharacter {
 		this.transform.localScale = theScale;
 	}
 
+	//攻击
 	void Attack(){
 		if(Input.GetButtonDown("Attack")){
 
@@ -167,15 +191,23 @@ public class Player : AllCharacter {
 			//开启攻击区域触发器
 			attackPoint.enabled = true;
 
+//			Debug.Log ("SoundManager.Instance:"+SoundManager.Instance.name);
+
 			//播放攻击音效
-			SoundManager.instance.PlaySingle("player",playerAttackClip);
+			SoundManager.Instance.PlaySingle(SOUND_CHANNEL.PLAYER,playerAttackClip);
+
+			//关闭无敌
+			if(superTime > float.Epsilon){
+				SetSuper(false);
+			}
 		}
 	}
 
 
+	//移动至下一个房间
     public void MoveNextRoom(Vector3 cameraVector,Vector3 DoorVector)
     {
-        Debug.Log("正在进入房间");
+//        Debug.Log("正在进入房间");
         Vector3 playerMoveEnd;
 
         //float yMove = (DoorVector.y - transform.position.y) ;
@@ -196,7 +228,7 @@ public class Player : AllCharacter {
             inverseTime = 1.25f;
             xMove += Mathf.Sign(DoorVector.x - cameraVector.x)*1.5f;
         }
-        Debug.Log("x: "+xMove + " y: " + yMove);
+//        Debug.Log("x: "+xMove + " y: " + yMove);
         //设定移动终点
         playerMoveEnd = transform.position + new Vector3(xMove, yMove, 0);
         //不能让玩家控制
@@ -208,10 +240,10 @@ public class Player : AllCharacter {
     //玩家平滑移动
     IEnumerator PlayerSmoothMove(Vector3 moveEnd)
     {
-        Debug.Log(inverseTime);
+//        Debug.Log(inverseTime);
         //求出从起始点到终点的距离
         float sqrRemainingDistance = (transform.position - moveEnd).sqrMagnitude;
-        Debug.Log("移动开始"); 
+//        Debug.Log("移动开始"); 
         //如果距离大于0
         while (sqrRemainingDistance > float.Epsilon)
         {
@@ -221,7 +253,7 @@ public class Player : AllCharacter {
             sqrRemainingDistance = (transform.position - moveEnd).sqrMagnitude;
             yield return null;
         }      
-            Debug.Log("已经移动完成");
+//            Debug.Log("已经移动完成");
         //将玩家的触发器改为碰撞器
            //GetComponent<BoxCollider2D>().isTrigger = false;
            GetComponent<CircleCollider2D>().isTrigger = false;
@@ -232,17 +264,12 @@ public class Player : AllCharacter {
 
 		if(other.gameObject.tag.Equals("Wall")){
 			wallTouch = true;
-//			Debug.Log ("wall");
-//			Vector2 dir = this.transform.position - other.transform.position;
-//			Debug.Log("dir:"+dir);
-//			GetComponent<Rigidbody2D>().AddForce(dir*1000f);
 		}
 	}
 
 	void OnCollisionExit2D(Collision2D other){
 		if(other.gameObject.tag.Equals("Wall")){
 			wallTouch = false;
-//			Debug.Log ("exit");
 		}
 	}
 
@@ -262,11 +289,15 @@ public class Player : AllCharacter {
 		}
 	}
 
+	public void HurtForce(Vector3 attackMoveEnd){
+		StartCoroutine(EnemyAttackForce(attackMoveEnd));
+	}
+
 	public IEnumerator EnemyAttackForce(Vector3 attackMoveEnd){
 
 		//设置玩家不能动
 		SetControl(false);
-		
+
 		//获得移动距离
 		float sqrRemainingDistance = (this.transform.position - attackMoveEnd).sqrMagnitude;
 		float maxDistanceDelta = 4f ;
@@ -280,18 +311,16 @@ public class Player : AllCharacter {
 		{
 			//Debug.Log("正在移动");
 			Vector3 newPosition = Vector3.MoveTowards(this.transform.position, attackMoveEnd, maxDistanceDelta * Time.deltaTime);
-			
-			//			Vector3 newPosition = Vector3.MoveTowards(playerTransform.position, attackMoveEnd, maxDistanceDelta * Time.deltaTime);
 			this.transform.position = newPosition;
 			sqrRemainingDistance = (this.transform.position - attackMoveEnd).sqrMagnitude;
-			
+//			Debug.Log ("sqrRemainingDistance"+sqrRemainingDistance);
 			
 			yield return null;
 		}
 		yield return new WaitForSeconds(0.3f);
 		//设置玩家可以操控
 		SetControl(true);
-		
+		wallTouch = false;
 	}
 
 	public void AttackEnable(){
@@ -301,12 +330,47 @@ public class Player : AllCharacter {
 	public void AttackDisable(){
 		canAttack = false;
 	}
-	
+
 	public int GetHP(){
 		return hp;
 	}
 
 	public void SetHP(int damage){
-		hp -= damage;
+		//如果是扣血播放受伤音效
+		if(damage>0){
+//			if(playerHurtClip!=null)
+//				AudioSource.PlayClipAtPoint(playerHurtClip,Vector2.zero);
+			hp = hp - (int)(damage - damage * armor/10);
+		}
+		else{
+			hp -= damage;
+		}
+		//防止生命值溢出,并死亡
+		if(hp < 0){
+			hp = 0;
+			PlayerDie();
+		}
+		if(hp > 100)
+			hp = 100;
+	}
+
+	void PlayerDie(){
+		//打出你死了
+		TextManager.Instance.showTint("你已经死了",SHOW_TYPE.FADEIN);
+		TextManager.Instance.MoveTint(new Vector3(0,-20f));
+//		Debug.Log ("Globe.game_state"+Globe.game_state);
+		//游戏结束
+		Globe.game_state = Globe.GAME_STATE.OVER;
+		if(dieEffect != null){
+//			Debug.Log("dieEffect",dieEffect);
+			Instantiate(dieEffect, this.transform.position, this.transform.rotation);
+		}
+		if(playerDieClip != null)
+			SoundManager.Instance.PlaySingle(SOUND_CHANNEL.ENEMY,playerDieClip);
+		Destroy(this.gameObject);
+	}
+
+	public void ResetPosition(){
+		
 	}
 }

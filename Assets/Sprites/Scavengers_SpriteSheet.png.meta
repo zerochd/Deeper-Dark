@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: eea36d07be18d454f85c8992a3dbac76
-timeCreated: 1443801685
+timeCreated: 1445308719
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -16,12 +16,12 @@ TextureImporter:
     21300018: enemy0_idle3
     21300020: enemy0_idle4
     21300022: enemy0_idle5
-    21300024: Scavengers_SpriteSheet_12
-    21300026: Scavengers_SpriteSheet_13
-    21300028: Scavengers_SpriteSheet_14
-    21300030: Scavengers_SpriteSheet_15
-    21300032: Scavengers_SpriteSheet_16
-    21300034: Scavengers_SpriteSheet_17
+    21300024: enemy1_idle0
+    21300026: enemy1_idle1
+    21300028: enemy1_idle2
+    21300030: enemy1_idle3
+    21300032: enemy1_idle4
+    21300034: enemy1_idle5
     21300036: Scavengers_SpriteSheet_18
     21300038: Scavengers_SpriteSheet_19
     21300040: Scavengers_SpriteSheet_20
@@ -48,8 +48,8 @@ TextureImporter:
     21300082: Scavengers_SpriteSheet_41
     21300084: enemy0_attack0
     21300086: enemy0_attack1
-    21300088: Scavengers_SpriteSheet_44
-    21300090: Scavengers_SpriteSheet_45
+    21300088: enemy1_attack0
+    21300090: enemy1_attack1
     21300092: Scavengers_SpriteSheet_46
     21300094: Scavengers_SpriteSheet_47
     21300096: brick
@@ -225,7 +225,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_12
+    - name: enemy1_idle0
       rect:
         serializedVersion: 2
         x: 128
@@ -235,7 +235,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_13
+    - name: enemy1_idle1
       rect:
         serializedVersion: 2
         x: 160
@@ -245,7 +245,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_14
+    - name: enemy1_idle2
       rect:
         serializedVersion: 2
         x: 192
@@ -255,7 +255,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_15
+    - name: enemy1_idle3
       rect:
         serializedVersion: 2
         x: 224
@@ -265,7 +265,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_16
+    - name: enemy1_idle4
       rect:
         serializedVersion: 2
         x: 0
@@ -275,7 +275,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_17
+    - name: enemy1_idle5
       rect:
         serializedVersion: 2
         x: 32
@@ -545,7 +545,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_44
+    - name: enemy1_attack0
       rect:
         serializedVersion: 2
         x: 128
@@ -555,7 +555,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Scavengers_SpriteSheet_45
+    - name: enemy1_attack1
       rect:
         serializedVersion: 2
         x: 160
